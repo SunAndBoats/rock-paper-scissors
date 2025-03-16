@@ -1,6 +1,6 @@
 /*Declarar variables computerChoice humanChoice*/
 const computerScore=0;
-const humanScore=0;
+const humanScoregit =0;
 
 
 /* Escribir una funcion para que la maquina elija piedra papel o tijera*/
