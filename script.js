@@ -1,61 +1,63 @@
-// Step 6: Write the logic to play the entire game
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("Hello World");
 
-const playGame = () => {
-    let computerScore = 0;
+    // Crear elementos dinámicamente
+    const title = document.createElement("h1");
+    title.textContent = "Rock Paper Scissors";
+    document.body.appendChild(title);
+
+    const btnContainer = document.createElement("div");
+    document.body.appendChild(btnContainer);
+
+    const choices = ["Rock", "Paper", "Scissors"];
+    choices.forEach(choice => {
+        const button = document.createElement("button");
+        button.textContent = choice;
+        button.addEventListener("click", () => playRound(choice));
+        btnContainer.appendChild(button);
+    });
+
+    const resultsDiv = document.createElement("div");
+    resultsDiv.style.marginTop = "20px";
+    resultsDiv.style.fontSize = "20px";
+    document.body.appendChild(resultsDiv);
+
     let humanScore = 0;
+    let computerScore = 0;
 
-    // Función para que la máquina elija Rock, Paper o Scissors
     const getComputerChoice = () => {
-        const choices = ["Rock", "Paper", "Scissors"];
         return choices[Math.floor(Math.random() * choices.length)];
     };
 
-    // Función para obtener la elección del usuario
-    const getHumanChoice = () => {
-        const choice = prompt("Choose Rock, Paper, or Scissors:").trim().toLowerCase();
-        return choice.charAt(0).toUpperCase() + choice.slice(1);
-    };
+    const playRound = (humanChoice) => {
+        if (humanScore === 5 || computerScore === 5) return;
 
-    // Función para jugar una ronda
-    const playRound = () => {
-        let humanChoice = getHumanChoice();
-        let computerChoice = getComputerChoice();
+        const computerChoice = getComputerChoice();
 
-        console.log(`You chose: ${humanChoice}`);
-        console.log(`Computer chose: ${computerChoice}`);
+        let resultText = `You chose: ${humanChoice} <br> Computer chose: ${computerChoice} <br>`;
 
         if (humanChoice === computerChoice) {
-            console.log("It's a tie!");
+            resultText += "It's a tie!";
         } else if (
             (humanChoice === "Rock" && computerChoice === "Scissors") ||
             (humanChoice === "Paper" && computerChoice === "Rock") ||
             (humanChoice === "Scissors" && computerChoice === "Paper")
         ) {
             humanScore++;
-            console.log(`You win this round! ${humanChoice} beats ${computerChoice}.`);
+            resultText += `You win this round! ${humanChoice} beats ${computerChoice}.`;
         } else {
             computerScore++;
-            console.log(`You lose this round! ${computerChoice} beats ${humanChoice}.`);
+            resultText += `You lose this round! ${computerChoice} beats ${humanChoice}.`;
         }
 
-        console.log(`Score - You: ${humanScore} | Computer: ${computerScore}`);
+        resultText += `<br><br> Score - You: ${humanScore} | Computer: ${computerScore}`;
+
+        if (humanScore === 5) {
+            resultText += "<br><br> 🏆 You win the game!";
+        } else if (computerScore === 5) {
+            resultText += "<br><br> 💻 Computer wins the game!";
+        }
+
+        resultsDiv.innerHTML = resultText;
     };
-
-    // Jugar 5 rondas
-    for (let round = 1; round <= 5; round++) {
-        console.log(`Round ${round}`);
-        playRound();
-    }
-
-    // Determinar ganador final
-    if (humanScore > computerScore) {
-        console.log("🏆 You win the game!");
-    } else if (humanScore < computerScore) {
-        console.log("💻 Computer wins the game!");
-    } else {
-        console.log("🤝 It's a tie game!");
-    }
-};
-
-// Llamar a la función para jugar
-playGame();
+});
